@@ -18,7 +18,7 @@ const robotImageLoader = async () => {
 const robotPartJsonObject = robotImageLoader();
 console.log(robotPartJsonObject);
 console.log(robotPartJsonObject.robotPartImagesArray);
-const {robotPartImagesArray} = robotPartJsonObject;
+const {robotPartImagesArray} = robotPartJsonObject.robotPartImagesArray;
 
 //#endregion
 
