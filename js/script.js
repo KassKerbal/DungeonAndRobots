@@ -140,7 +140,7 @@ function startGame() {
 function lossGame() {
     const attackAndRunOptions = document.getElementById("attackAndRunButtons");
     const isSaveGame = document.getElementById("gameOptionsInGame");
-    attackAndRunOptions.remove();
+    attackAndRunOptions.style.display = "none";
     isSaveGame.style.display = "none";
     const optionsLoader = () => {
         const container = document.getElementById("container");
@@ -151,6 +151,7 @@ function lossGame() {
         lossGame.style.display = "block";
         defaultGameValues();
     }
+    attackAndRunOptions.remove();
     timeOutInLoss(optionsLoader);
 }
 
