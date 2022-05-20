@@ -16,10 +16,10 @@ const robotImageLoader = async () => {
     return response;
 }
 
-console.log(response);
 
 const robotPartImagesArray = robotImageLoader();
 
+console.log(robotPartImagesArray);
 //#endregion
 
 //#region GENERAL GAME OPTIONS
