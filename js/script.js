@@ -16,6 +16,8 @@ const robotImageLoader = async () => {
     return response;
 }
 
+console.log(response);
+
 const robotPartImagesArray = robotImageLoader();
 
 //#endregion
