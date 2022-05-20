@@ -14,7 +14,6 @@ let robotPartImagesArray = false;
  const robotImageLoader = async () => {
     const getImageArray = await fetch('./json/robotImages.json').then(r => r.json());
     robotPartImagesArray = getImageArray.robotPartImagesArray;
-    console.log(robotPartImagesArray);
 }
 
 robotImageLoader();
