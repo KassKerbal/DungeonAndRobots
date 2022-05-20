@@ -155,7 +155,7 @@ function lossGame() {
 async function timeOutInLoss(callback) {
 
     const promise = new Promise((resolve) => {
-        setTimeout(() => resolve(callback()), 4000)
+        setTimeout(() => resolve(callback()), 3000)
     });
 
     const result = await promise;
