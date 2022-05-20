@@ -11,13 +11,6 @@ let levelCounter = 1;
 let tableSize = 4;
 let robotPartImagesArray = false;
 
- const robotImageLoader = async () => {
-    const getImageArray = await fetch('./json/robotImages.json').then(r => r.json());
-    robotPartImagesArray = getImageArray.robotPartImagesArray;
-}
-
-robotImageLoader();
-
 //#endregion
 
 //#region GENERAL GAME OPTIONS
@@ -27,29 +20,38 @@ newGame.onclick = () => startNewGame();
 
 const loadSavedGame = document.getElementById("loadGameButton");
 loadSavedGame.onclick = () => loadGame();
+loadSavedGame.disabled = true;
 
 const saveCurrentGame = document.getElementById("saveGameButton");
 saveCurrentGame.onclick = () => saveGame();
+saveCurrentGame.disabled = true;
+
+// Carga las array de imágenes del json.
+const robotImageLoader = async () => {
+    const getImageArray = await fetch('./json/robotImages.json').then(r => r.json());
+    robotPartImagesArray = getImageArray.robotPartImagesArray;
+    loadSavedGame.disabled = false;
+    saveCurrentGame.disabled = false;
+}
+
+robotImageLoader();
 
 // Controla la nueva partida. Limpia la UI y llama a la función de createCharacter,
 // generando un robot alatorio para el jugador. Finalmente llama la función para crear la selección
 // de personaje.
 function startNewGame() {
 
-    if (robotPartImagesArray !== false) {
-
-        const gameOptions = document.getElementById("gameOptions");
-        gameOptions.style.display = "none";
-        const defaultStats = [100, 100, 100, 100, 100, 1];
-        createCharacter("player", defaultStats, myCharacters, "ally");
-        const newRandomRobot = randomRobotBody();
+    const gameOptions = document.getElementById("gameOptions");
+    gameOptions.style.display = "none";
+    const defaultStats = [100, 100, 100, 100, 100, 1];
+    createCharacter("player", defaultStats, myCharacters, "ally");
+    const newRandomRobot = randomRobotBody();
     myCharacters[0].setRobotParts(
         newRandomRobot[0],
         newRandomRobot[1],
         newRandomRobot[2]
-        );
-        generateCharacterSelectionPage()
-    }
+    );
+    generateCharacterSelectionPage()
 }
 
 // Controla la funcionalidad de guardar la partida.
