@@ -11,10 +11,11 @@ let levelCounter = 1;
 let tableSize = 4;
 
 const robotImageLoader = async () => {
-    const getImageArray = fetch('./json/robotImages.json').then(r => r.json());
+    const getImageArray = await fetch('./json/robotImages.json').then(r => r.json());
+    return getImageArray;
 }
 
-const robotPartJsonObject = await robotImageLoader();
+const robotPartJsonObject = robotImageLoader();
 console.log(robotPartImagesArray);
 console.log(robotPartJsonObject.robotPartImagesArray);
 const {robotPartImagesArray} = robotPartJsonObject.robotPartImagesArray;
