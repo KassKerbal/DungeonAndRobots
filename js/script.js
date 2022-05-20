@@ -10,11 +10,13 @@ let potionAndStairs = [];
 let levelCounter = 1;
 let tableSize = 4;
 
-const robotPartImagesArray = [
-    ["./images/robot/head1.svg", "./images/robot/head2.svg", "./images/robot/head3.svg"],
-    ["./images/robot/torso1.svg", "./images/robot/torso2.svg", "./images/robot/torso3.svg"],
-    ["./images/robot/legs1.svg", "./images/robot/legs2.svg", "./images/robot/legs3.svg"],
-]
+const robotImageLoader = async () => {
+    const getImageArray = fetch('./json/robotImages.json').then(r => r.json());
+    const response = await getImageArray;
+    console.log(response);
+}
+
+const robotPartImagesArray = robotImageLoader();
 
 //#endregion
 
@@ -70,10 +72,10 @@ function saveGame() {
 // Luego llama a la función startGame para iniciar la partida.
 function loadGame() {
     const myCharactersInfo = localStorage.getItem("SavedGame");
-    
+
     if (myCharactersInfo !== null) {
         const mySavedCharacters = JSON.parse(myCharactersInfo);
-        
+
         tableSize = JSON.parse(localStorage.getItem("TableSize"));
         levelCounter = JSON.parse(localStorage.getItem("Level"));
 
@@ -101,8 +103,8 @@ function loadGame() {
         const gameOptions = document.getElementById("gameOptions");
         gameOptions.style.display = "none";
         startGame();
-       (myCharacters[1]) && uIRobotCreator(myCharacters[1], "allyAvatarWrap");
-       isCompanion = (myCharacters[1]) ? true :  false;
+        (myCharacters[1]) && uIRobotCreator(myCharacters[1], "allyAvatarWrap");
+        isCompanion = (myCharacters[1]) ? true : false;
     }
 }
 
@@ -130,18 +132,29 @@ function startGame() {
 // Limpia la UI y llama a la función de defaultGameValues para resetear todo a los valores inciales.
 // Y luego muestra en pantalla el Options y la imagen de lossGame.
 function lossGame() {
-    const container = document.getElementById("container");
     const attackAndRunOptions = document.getElementById("attackAndRunButtons");
     const isSaveGame = document.getElementById("gameOptionsInGame");
-    const gameOptions = document.getElementById("gameOptions");
-    const lossGame = document.getElementById("lossGame");
-    container.innerHTML = "";
     attackAndRunOptions.remove();
     isSaveGame.style.display = "none";
-    gameOptions.style.display = "flex";
-    lossGame.style.display = "block";
-    defaultGameValues();
+    const optionsLoader = () => {
+        const container = document.getElementById("container");
+        const gameOptions = document.getElementById("gameOptions");
+        const lossGame = document.getElementById("lossGame");
+        container.innerHTML = "";
+        gameOptions.style.display = "flex";
+        lossGame.style.display = "block";
+        defaultGameValues();
+    }
+    timeOutInLoss(optionsLoader);
+}
 
+async function timeOutInLoss(callback) {
+
+    const promise = new Promise((resolve) => {
+      setTimeout(() => resolve(callback()), 4000)
+    });
+  
+    const result = await promise;
 }
 
 // Resetea todas las variables a sus valores iniciales.
@@ -620,13 +633,13 @@ function tryToRun() {
     const combatCharacters = turnSelector(myCharacters, enemyCharacters);
     if (combatCharacters[combatCharacters.length - 1].party === "ally") {
         clearAllEnemiesCharacters();
-        
+
         consoleGameController({
             event: "¡Has huído con éxito!",
             isInfo: false
         })
     } else {
-        attackAndRunButtons (false, true);
+        attackAndRunButtons(false, true);
         consoleGameController({
             event: "¡INTENTO FRACASADO! Debes combatir",
             isInfo: false
@@ -1050,7 +1063,7 @@ function randomEnemyEncounter() {
 
 function captureAlly(enemy) {
 
-    const captureSuccess = 1 // Math.ceil(Math.random() * 100) > 70; // HARDCODEADO
+    const captureSuccess = Math.ceil(Math.random() * 100) > 70;
     // Si la captura es un éxito entonces crea el aliado y lo imprime en pantalla.
     if (captureSuccess && !isCompanion) {
 
