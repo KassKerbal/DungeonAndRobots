@@ -13,14 +13,12 @@ let tableSize = 4;
 const robotImageLoader = async () => {
     const getImageArray = fetch('./json/robotImages.json').then(r => r.json());
     const response = await getImageArray;
-    console.log(response);
     return response;
 }
 
 
-const robotPartImagesArray = robotImageLoader();
+const {robotPartImagesArray} = robotImageLoader();
 
-console.log(robotPartImagesArray);
 //#endregion
 
 //#region GENERAL GAME OPTIONS
