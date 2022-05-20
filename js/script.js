@@ -9,16 +9,15 @@ let isEnemyFind = false;
 let potionAndStairs = [];
 let levelCounter = 1;
 let tableSize = 4;
+let robotPartImagesArray = false;
 
-const robotImageLoader = async () => {
+ const robotImageLoader = async () => {
     const getImageArray = await fetch('./json/robotImages.json').then(r => r.json());
-    return getImageArray;
+    robotPartImagesArray = getImageArray.robotPartImagesArray;
+    console.log(robotPartImagesArray);
 }
 
-const robotPartJsonObject = robotImageLoader();
-console.log(robotPartImagesArray);
-console.log(robotPartJsonObject.robotPartImagesArray);
-const {robotPartImagesArray} = robotPartJsonObject.robotPartImagesArray;
+robotImageLoader();
 
 //#endregion
 
@@ -37,17 +36,21 @@ saveCurrentGame.onclick = () => saveGame();
 // generando un robot alatorio para el jugador. Finalmente llama la función para crear la selección
 // de personaje.
 function startNewGame() {
-    const gameOptions = document.getElementById("gameOptions");
-    gameOptions.style.display = "none";
-    const defaultStats = [100, 100, 100, 100, 100, 1];
-    createCharacter("player", defaultStats, myCharacters, "ally");
-    const newRandomRobot = randomRobotBody();
+
+    if (robotPartImagesArray !== false) {
+
+        const gameOptions = document.getElementById("gameOptions");
+        gameOptions.style.display = "none";
+        const defaultStats = [100, 100, 100, 100, 100, 1];
+        createCharacter("player", defaultStats, myCharacters, "ally");
+        const newRandomRobot = randomRobotBody();
     myCharacters[0].setRobotParts(
         newRandomRobot[0],
         newRandomRobot[1],
         newRandomRobot[2]
-    );
-    generateCharacterSelectionPage()
+        );
+        generateCharacterSelectionPage()
+    }
 }
 
 // Controla la funcionalidad de guardar la partida.
@@ -153,9 +156,9 @@ function lossGame() {
 async function timeOutInLoss(callback) {
 
     const promise = new Promise((resolve) => {
-      setTimeout(() => resolve(callback()), 4000)
+        setTimeout(() => resolve(callback()), 4000)
     });
-  
+
     const result = await promise;
 }
 
