@@ -146,12 +146,12 @@ function lossGame() {
         const container = document.getElementById("container");
         const gameOptions = document.getElementById("gameOptions");
         const lossGame = document.getElementById("lossGame");
+        attackAndRunOptions.remove();
         container.innerHTML = "";
         gameOptions.style.display = "flex";
         lossGame.style.display = "block";
         defaultGameValues();
     }
-    attackAndRunOptions.remove();
     timeOutInLoss(optionsLoader);
 }
 
